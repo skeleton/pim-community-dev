@@ -1,3 +1,8 @@
+# 1.2.x
+
+## Bug fixes
+- PIM-3407: Fix text filter with special characters and 'is equal to' operator
+
 # 1.2.25 (2015-02-04)
 
 ## Bug fixes
