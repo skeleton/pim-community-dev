@@ -126,7 +126,7 @@ class CompletenessFilterSpec extends ObjectBehavior
 
     function it_throws_an_exception_if_value_is_not_a_integer()
     {
-        $this->shouldThrow(InvalidArgumentException::integerExpected('completeness', 'filter', 'completeness', gettype('123')))
-            ->during('addFieldFilter', ['completeness', '=', '123', 'en_US', 'mobile']);
+        $this->shouldThrow(InvalidArgumentException::numericExpected('completeness', 'filter', 'completeness', gettype('123')))
+            ->during('addFieldFilter', ['completeness', '=', '12z3', 'en_US', 'mobile']);
     }
 }

@@ -29,7 +29,7 @@ class CompletenessFilterSpec extends ObjectBehavior
         $this->supportsOperator('FAKE')->shouldReturn(false);
     }
 
-    function it_adds_a_equals_filter_on_completeness_in_the_query(Builder $queryBuilder)
+    function it_adds_a_equals_filter_on_completeness_in_the_query($queryBuilder)
     {
         $queryBuilder->field('normalizedData.completenesses.mobile-en_US')->willReturn($queryBuilder);
         $queryBuilder->equals('100')->willReturn($queryBuilder);
@@ -37,7 +37,7 @@ class CompletenessFilterSpec extends ObjectBehavior
         $this->addFieldFilter('completenesses', '=', 100, 'en_US', 'mobile');
     }
 
-    function it_adds_a_less_than_filter_on_completeness_in_the_query(Builder $queryBuilder)
+    function it_adds_a_less_than_filter_on_completeness_in_the_query($queryBuilder)
     {
         $queryBuilder->field('normalizedData.completenesses.mobile-en_US')->willReturn($queryBuilder);
         $queryBuilder->lt('100')->willReturn($queryBuilder);
@@ -60,7 +60,7 @@ class CompletenessFilterSpec extends ObjectBehavior
 
     function it_throws_an_exception_if_value_is_not_an_integer()
     {
-        $this->shouldThrow(InvalidArgumentException::integerExpected('completeness', 'filter', 'completeness', gettype('123')))
-            ->during('addFieldFilter', ['completeness', '=', '123', 'fr_FR', 'mobile']);
+        $this->shouldThrow(InvalidArgumentException::numericExpected('completeness', 'filter', 'completeness', gettype('123')))
+            ->during('addFieldFilter', ['completeness', '=', '12a3', 'fr_FR', 'mobile']);
     }
 }
