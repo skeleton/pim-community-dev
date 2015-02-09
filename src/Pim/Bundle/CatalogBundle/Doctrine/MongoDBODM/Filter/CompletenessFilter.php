@@ -2,9 +2,10 @@
 
 namespace Pim\Bundle\CatalogBundle\Doctrine\MongoDBODM\Filter;
 
-use Pim\Bundle\CatalogBundle\Query\Filter\FieldFilterInterface;
-use Pim\Bundle\CatalogBundle\Exception\InvalidArgumentException;
 use Pim\Bundle\CatalogBundle\Doctrine\MongoDBODM\ProductQueryUtility;
+use Pim\Bundle\CatalogBundle\Exception\InvalidArgumentException;
+use Pim\Bundle\CatalogBundle\Query\Filter\FieldFilterInterface;
+use Pim\Bundle\CatalogBundle\Query\Filter\Operators;
 
 /**
  * Completeness filter
@@ -71,8 +72,8 @@ class CompletenessFilter extends AbstractFilter implements FieldFilterInterface
      */
     protected function checkValue($field, $value, $locale, $scope)
     {
-        if (!is_string($value)) {
-            throw InvalidArgumentException::stringExpected($field, 'filter', 'completeness', gettype($value));
+        if (!is_numeric($value) && null !== $value) {
+            throw InvalidArgumentException::numericExpected($field, 'filter', 'completeness', gettype($value));
         }
 
         if (null === $locale || null === $scope) {
@@ -91,9 +92,9 @@ class CompletenessFilter extends AbstractFilter implements FieldFilterInterface
      */
     protected function applyFilter($value, $field, $operator)
     {
-        if ($operator === '=') {
+        if ($operator === Operators::EQUALS) {
             $this->qb->field($field)->equals($value);
-        } else {
+        } elseif ($operator === Operators::LOWER_THAN) {
             $this->qb->field($field)->lt($value);
         }
     }

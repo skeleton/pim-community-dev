@@ -34,7 +34,7 @@ class CompletenessFilterSpec extends ObjectBehavior
         $queryBuilder->field('normalizedData.completenesses.mobile-en_US')->willReturn($queryBuilder);
         $queryBuilder->equals('100')->willReturn($queryBuilder);
 
-        $this->addFieldFilter('completenesses', '=', '100', 'en_US', 'mobile');
+        $this->addFieldFilter('completenesses', '=', 100, 'en_US', 'mobile');
     }
 
     function it_adds_a_less_than_filter_on_completeness_in_the_query(Builder $queryBuilder)
@@ -42,7 +42,7 @@ class CompletenessFilterSpec extends ObjectBehavior
         $queryBuilder->field('normalizedData.completenesses.mobile-en_US')->willReturn($queryBuilder);
         $queryBuilder->lt('100')->willReturn($queryBuilder);
 
-        $this->addFieldFilter('completenesses', '<', '100', 'en_US', 'mobile');
+        $this->addFieldFilter('completenesses', '<', 100, 'en_US', 'mobile');
     }
 
     function it_throws_an_exception_when_the_locale_and_scope_are_not_provided()
@@ -58,9 +58,9 @@ class CompletenessFilterSpec extends ObjectBehavior
             ->duringAddFieldFilter('completenesses', '=', 100, 'fr_FR', null);
     }
 
-    function it_throws_an_exception_if_value_is_not_a_string()
+    function it_throws_an_exception_if_value_is_not_an_integer()
     {
-        $this->shouldThrow(InvalidArgumentException::stringExpected('completeness', 'filter', 'completeness', gettype(123)))
-            ->during('addFieldFilter', ['completeness', '=', 123]);
+        $this->shouldThrow(InvalidArgumentException::integerExpected('completeness', 'filter', 'completeness', gettype('123')))
+            ->during('addFieldFilter', ['completeness', '=', '123', 'fr_FR', 'mobile']);
     }
 }
